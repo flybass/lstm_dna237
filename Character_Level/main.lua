@@ -256,10 +256,9 @@ end
 g_init_gpu(arg)
 state_train = {data=transfer_data(ptb.traindataset(params.batch_size))}
 state_valid =  {data=transfer_data(ptb.validdataset(params.batch_size))}
-state_test =  {data=transfer_data(ptb.testdataset(params.batch_size))}
 print("Network parameters:")
 print(params)
-local states = {state_train, state_valid, state_test}
+local states = {state_train, state_valid}
 for _, state in pairs(states) do
  reset_state(state)
 end
@@ -287,7 +286,7 @@ while epoch < params.max_max_epoch do
    wps = torch.floor(total_cases / torch.toc(start_time))
    since_beginning = g_d(torch.toc(beginning_time) / 60)
    print('epoch = ' .. g_f3(epoch) ..
-         ', train perp. = ' .. g_f3(torch.exp(perps:mean())) ..
+         ', train perp. = ' .. g_f3(torch.exp(5.6*perps:mean())) ..
          ', wps = ' .. wps ..
          ', dw:norm() = ' .. g_f3(model.norm_dw) ..
          ', lr = ' ..  g_f3(params.lr) ..
@@ -304,7 +303,6 @@ while epoch < params.max_max_epoch do
    collectgarbage()
  end
 end
-run_test()
 print("Training is over.")
 -- query_sentences()
 --end
